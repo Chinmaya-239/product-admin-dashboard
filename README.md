@@ -1,5 +1,7 @@
 # Product Admin Dashboard
 
+\*\*Live demo:\*\* https://your-project-name.vercel.app
+
 A small admin dashboard for the [DummyJSON](https://dummyjson.com) product
 catalog, built with Next.js (App Router), React, Tailwind CSS and Axios.
 
@@ -23,31 +25,31 @@ npm start
 
 ## What's finished
 
-- **Login** — calls `POST /auth/login`, shows an error message on wrong
-  credentials, stores the token, and guards every `/products` route (via
-  `middleware.js`) so they can't be opened while logged out. Logout button
-  in the top bar clears the session.
-- **Product list** — table on desktop, cards on mobile (both rendered,
-  Tailwind's `md:` breakpoint shows/hides the right one — no JS breakpoint
-  detection needed).
-- **Pagination** — page numbers, Previous/Next, a 10/20/50 page-size
-  selector, and a "Showing X–Y of Z" line. Built from `limit`/`skip`, no
-  pagination library.
-- **Search** — debounced 500ms, resets to page 1 on change, and is
-  race-condition safe (see below).
-- **Filter + sort** — category dropdown from `/products/categories`, sort
-  by title/price/rating in either direction.
-- **Product details** at `/products/[id]` — images, description, price,
-  reviews, and a proper "not found" state for a bad id.
-- **Add / edit / delete** — a validated form (required title/category/
-  description, price > 0, stock ≥ 0, rating 0–5) and a confirm modal before
-  deleting.
-- **Loading / empty / error states** everywhere data is fetched, with a
-  Retry button on error.
-- **URL as state** — `page`, `limit`, `q`, `category`, `sortBy`, `order` all
-  live in the query string, so refreshing or sharing a link reproduces the
-  same view. Bad values (`?page=abc`, `?page=999`, an unsupported `?limit=`)
-  are clamped instead of crashing.
+* **Login** — calls `POST /auth/login`, shows an error message on wrong
+credentials, stores the token, and guards every `/products` route (via
+`middleware.js`) so they can't be opened while logged out. Logout button
+in the top bar clears the session.
+* **Product list** — table on desktop, cards on mobile (both rendered,
+Tailwind's `md:` breakpoint shows/hides the right one — no JS breakpoint
+detection needed).
+* **Pagination** — page numbers, Previous/Next, a 10/20/50 page-size
+selector, and a "Showing X–Y of Z" line. Built from `limit`/`skip`, no
+pagination library.
+* **Search** — debounced 500ms, resets to page 1 on change, and is
+race-condition safe (see below).
+* **Filter + sort** — category dropdown from `/products/categories`, sort
+by title/price/rating in either direction.
+* **Product details** at `/products/\[id]` — images, description, price,
+reviews, and a proper "not found" state for a bad id.
+* **Add / edit / delete** — a validated form (required title/category/
+description, price > 0, stock ≥ 0, rating 0–5) and a confirm modal before
+deleting.
+* **Loading / empty / error states** everywhere data is fetched, with a
+Retry button on error.
+* **URL as state** — `page`, `limit`, `q`, `category`, `sortBy`, `order` all
+live in the query string, so refreshing or sharing a link reproduces the
+same view. Bad values (`?page=abc`, `?page=999`, an unsupported `?limit=`)
+are clamped instead of crashing.
 
 ## Notable choices
 
@@ -84,7 +86,7 @@ return early if a submit is already in flight, so mashing the button
 doesn't fire multiple requests.
 
 **Preventing stale search results.** Typing quickly against a slow API
-(tested with `&delay=2000` appended to requests) could let an earlier
+(tested with `\&delay=2000` appended to requests) could let an earlier
 request's response land after a later one's, showing outdated results. Two
 things guard against this: each request carries an incrementing id, and a
 response is only applied if its id still matches the latest one issued;
@@ -122,8 +124,8 @@ app/
   login/page.js
   products/page.js            product list (search, filter, sort, pagination)
   products/new/page.js
-  products/[id]/page.js       product details
-  products/[id]/edit/page.js
+  products/\[id]/page.js       product details
+  products/\[id]/edit/page.js
 lib/
   axios.js                    shared Axios instance + interceptors
   api/auth.js, api/products.js
@@ -134,3 +136,4 @@ components/                   Navbar, SearchBar, FilterSortBar, Pagination,
 context/AuthContext.js
 middleware.js                 route protection
 ```
+
