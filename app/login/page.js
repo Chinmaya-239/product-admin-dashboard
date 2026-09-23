@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/lib/api/auth";
 import { useAuth } from "@/context/AuthContext";
@@ -10,13 +10,18 @@ export default function LoginPage() {
   const [password, setPassword] = useState("emilyspass");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const submittingRef = useRef(false);
   const router = useRouter();
   const { loginSuccess } = useAuth();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    // Guards against a fast double-click sending two login requests.
-    if (submitting) return;
+    // Uses a ref (not state) because state updates aren't applied
+    // synchronously — several rapid clicks can all fire before React
+    // re-renders and disables the button, letting duplicate requests
+    // slip through a state-only guard.
+    if (submittingRef.current) return;
+    submittingRef.current = true;
 
     setError("");
     setSubmitting(true);
@@ -32,6 +37,7 @@ export default function LoginPage() {
         setError("Something went wrong. Please try again.");
       }
     } finally {
+      submittingRef.current = false;
       setSubmitting(false);
     }
   }
@@ -83,8 +89,11 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full bg-accent hover:bg-accent-dark disabled:opacity-50 text-white rounded-lg py-2 text-sm font-medium transition-colors"
+            className="w-full bg-accent hover:bg-accent-dark disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none text-white rounded-lg py-2 text-sm font-medium transition-colors flex items-center justify-center gap-2"
           >
+            {submitting && (
+              <span className="h-4 w-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+            )}
             {submitting ? "Signing in…" : "Sign in"}
           </button>
         </form>
