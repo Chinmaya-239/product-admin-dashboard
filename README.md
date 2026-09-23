@@ -1,6 +1,6 @@
 # Product Admin Dashboard
 
-\*\*Live demo:\*\* https://your-project-name.vercel.app
+Live demo:https://product-admin-dashboard-two.vercel.app/
 
 A small admin dashboard for the [DummyJSON](https://dummyjson.com) product
 catalog, built with Next.js (App Router), React, Tailwind CSS and Axios.
